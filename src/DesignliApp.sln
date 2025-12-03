@@ -11,6 +11,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Designli.Application", "Des
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Designli.Infrastructure", "Designli.Infrastructure\Designli.Infrastructure.csproj", "{D53A272B-6CB4-48C2-B1AF-90D63E4C59C7}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Designli.Web", "Designli.Web\Designli.Web.csproj", "{96B7B365-D886-4871-A290-60793A7D598D}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -69,6 +71,18 @@ Global
 		{D53A272B-6CB4-48C2-B1AF-90D63E4C59C7}.Release|x64.Build.0 = Release|Any CPU
 		{D53A272B-6CB4-48C2-B1AF-90D63E4C59C7}.Release|x86.ActiveCfg = Release|Any CPU
 		{D53A272B-6CB4-48C2-B1AF-90D63E4C59C7}.Release|x86.Build.0 = Release|Any CPU
+		{96B7B365-D886-4871-A290-60793A7D598D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{96B7B365-D886-4871-A290-60793A7D598D}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{96B7B365-D886-4871-A290-60793A7D598D}.Debug|x64.ActiveCfg = Debug|Any CPU
+		{96B7B365-D886-4871-A290-60793A7D598D}.Debug|x64.Build.0 = Debug|Any CPU
+		{96B7B365-D886-4871-A290-60793A7D598D}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{96B7B365-D886-4871-A290-60793A7D598D}.Debug|x86.Build.0 = Debug|Any CPU
+		{96B7B365-D886-4871-A290-60793A7D598D}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{96B7B365-D886-4871-A290-60793A7D598D}.Release|Any CPU.Build.0 = Release|Any CPU
+		{96B7B365-D886-4871-A290-60793A7D598D}.Release|x64.ActiveCfg = Release|Any CPU
+		{96B7B365-D886-4871-A290-60793A7D598D}.Release|x64.Build.0 = Release|Any CPU
+		{96B7B365-D886-4871-A290-60793A7D598D}.Release|x86.ActiveCfg = Release|Any CPU
+		{96B7B365-D886-4871-A290-60793A7D598D}.Release|x86.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
