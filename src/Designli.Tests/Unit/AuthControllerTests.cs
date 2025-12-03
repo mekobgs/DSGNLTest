@@ -91,7 +91,7 @@ public class AuthControllerTests
             new UserApp { Username = "sarah", PasswordHash = "hash3" }
         };
 
-        _mockUserRepository.Setup(x => x.Users).Returns(users);
+        _mockUserRepository.Setup(x => x.GetAll()).Returns(users);
 
         // Act
         var result = _authController.GetUsers();

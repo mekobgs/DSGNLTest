@@ -1,5 +1,3 @@
-using Designli.Domain.Interfaces;
-using Designli.Infrastructure.Repositories;
 using Designli.Web.Services;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -16,23 +14,31 @@ builder.Services.AddHttpClient<AuthApiService>(client =>
 {
     client.BaseAddress = new Uri(apiBaseUrl);
 })
-.ConfigurePrimaryHttpMessageHandler(() => new HttpClientHandler
+.ConfigurePrimaryHttpMessageHandler(() =>
 {
-    ServerCertificateCustomValidationCallback = (sender, cert, chain, sslPolicyErrors) => true
+    var handler = new HttpClientHandler();
+    if (builder.Environment.IsDevelopment())
+    {
+        handler.ServerCertificateCustomValidationCallback = (sender, cert, chain, sslPolicyErrors) => true;
+    }
+    return handler;
 });
 
 builder.Services.AddHttpClient<EmployeeApiService>(client =>
 {
     client.BaseAddress = new Uri(apiBaseUrl);
 })
-.ConfigurePrimaryHttpMessageHandler(() => new HttpClientHandler
+.ConfigurePrimaryHttpMessageHandler(() =>
 {
-    ServerCertificateCustomValidationCallback = (sender, cert, chain, sslPolicyErrors) => true
+    var handler = new HttpClientHandler();
+    if (builder.Environment.IsDevelopment())
+    {
+        handler.ServerCertificateCustomValidationCallback = (sender, cert, chain, sslPolicyErrors) => true;
+    }
+    return handler;
 });
 
-// Repositories - Direct injection for Web UI
-builder.Services.AddSingleton<IEmployeeRepository, EmployeeRepository>();
-builder.Services.AddSingleton<IUserRepository, UserRepository>();
+
 
 // Session support for JWT storage
 builder.Services.AddSession(options =>

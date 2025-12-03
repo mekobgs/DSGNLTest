@@ -1,11 +1,16 @@
 using Designli.Application.DTOs;
 using Designli.Domain.Interfaces;
+using Designli.Application.DTOs;
+using Designli.Domain.Interfaces;
 using Designli.Infrastructure.Services;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Designli.Api.Controllers;
 
+/// <summary>
+/// Controller for authentication and user management.
+/// </summary>
 [ApiController]
 [Route("api/auth")]
 public class AuthController : ControllerBase
@@ -19,6 +24,11 @@ public class AuthController : ControllerBase
         _jwt = jwt;
     }
 
+    /// <summary>
+    /// Authenticates a user and returns a JWT token.
+    /// </summary>
+    /// <param name="request">Login credentials.</param>
+    /// <returns>A JWT token if successful.</returns>
     [HttpPost("login")]
     public IActionResult Login(LoginRequest request)
     {
@@ -30,10 +40,14 @@ public class AuthController : ControllerBase
         return Ok(new { token });
     }
 
+    /// <summary>
+    /// Retrieves a list of all registered users.
+    /// </summary>
+    /// <returns>A list of usernames.</returns>
     [Authorize]
     [HttpGet("users")]
     public IActionResult GetUsers()
     {
-        return Ok(_users.Users.Select(x => x.Username));
+        return Ok(_users.GetAll().Select(x => x.Username));
     }
 }

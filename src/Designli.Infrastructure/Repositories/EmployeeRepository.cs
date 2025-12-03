@@ -6,6 +6,7 @@ namespace Designli.Infrastructure.Repositories;
 public class EmployeeRepository : IEmployeeRepository
 {
     private readonly List<Employee> _employees;
+    private readonly object _lock = new();
 
     public EmployeeRepository()
     {
@@ -17,28 +18,50 @@ public class EmployeeRepository : IEmployeeRepository
         };
     }
 
-    public IEnumerable<Employee> GetAll() => _employees;
+    public IEnumerable<Employee> GetAll()
+    {
+        lock (_lock)
+        {
+            return _employees.ToList(); // Return copy to avoid enumeration issues
+        }
+    }
 
-    public Employee? GetById(Guid id) =>
-        _employees.FirstOrDefault(x => x.Id == id);
+    public Employee? GetById(Guid id)
+    {
+        lock (_lock)
+        {
+            return _employees.FirstOrDefault(x => x.Id == id);
+        }
+    }
 
-    public void Add(Employee employee) =>
-        _employees.Add(employee);
+    public void Add(Employee employee)
+    {
+        lock (_lock)
+        {
+            _employees.Add(employee);
+        }
+    }
 
     public void Update(Employee employee)
     {
-        var existing = GetById(employee.Id);
-        if (existing == null) return;
+        lock (_lock)
+        {
+            var existing = _employees.FirstOrDefault(x => x.Id == employee.Id);
+            if (existing == null) return;
 
-        existing.Name = employee.Name;
-        existing.BirthDate = employee.BirthDate;
-        existing.IdentityNumber = employee.IdentityNumber;
-        existing.Position = employee.Position;
+            existing.Name = employee.Name;
+            existing.BirthDate = employee.BirthDate;
+            existing.IdentityNumber = employee.IdentityNumber;
+            existing.Position = employee.Position;
+        }
     }
 
     public void Delete(Guid id)
     {
-        var e = GetById(id);
-        if (e != null) _employees.Remove(e);
+        lock (_lock)
+        {
+            var e = _employees.FirstOrDefault(x => x.Id == id);
+            if (e != null) _employees.Remove(e);
+        }
     }
 }
