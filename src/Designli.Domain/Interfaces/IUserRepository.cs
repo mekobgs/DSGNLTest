@@ -4,6 +4,6 @@ namespace Designli.Domain.Interfaces;
 
 public interface IUserRepository
 {
-    List<UserApp> Users { get; set; }
+    IEnumerable<UserApp> GetAll();
     UserApp? GetByUsername(string username);
 }

@@ -20,7 +20,6 @@ public class AuthApiService : IAuthApiService
     {
         try 
         {
-            Console.WriteLine($"[AuthApiService] Attempting login for user: {username} to {_httpClient.BaseAddress}api/auth/login");
             var loginRequest = new { Username = username, Password = password };
             var content = new StringContent(
                 JsonSerializer.Serialize(loginRequest),
@@ -34,7 +33,7 @@ public class AuthApiService : IAuthApiService
             if (!response.IsSuccessStatusCode)
             {
                 var errorContent = await response.Content.ReadAsStringAsync();
-                Console.WriteLine($"[AuthApiService] Login failed. Content: {errorContent}");
+                Console.WriteLine($"[AuthApiService] Login failed. Status: {response.StatusCode}");
                 return null;
             }
 

@@ -83,6 +83,27 @@ dotnet test src/Designli.Tests
 *   **Unit Tests**: Cover Controllers, Services, and Models.
 *   **Integration Tests**: Verify the full authentication flow using `WebApplicationFactory`.
 
+## API Documentation
+
+The API comes with Swagger UI for easy exploration and testing.
+
+### Accessing Swagger
+When running the API project locally, navigate to:
+`https://localhost:7063/swagger`
+
+### Endpoints
+
+#### Authentication (`/api/auth`)
+- `POST /login`: Authenticate and receive a JWT token.
+- `GET /users`: List all registered users (requires authentication).
+
+#### Employees (`/api/employees`)
+- `GET /`: List all employees.
+- `GET /{id}`: Get employee details.
+- `POST /`: Create a new employee.
+- `PUT /{id}`: Update an employee.
+- `DELETE /{id}`: Delete an employee.
+
 ## Bonus Features
 *   **Dashboard**: A modern landing page displaying key metrics and quick actions.
 *   **Employees CRUD**: Full Create, Read, Update, and Delete functionality for employee records.

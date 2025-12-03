@@ -6,11 +6,12 @@ namespace Designli.Infrastructure.Repositories;
 
 public class UserRepository : IUserRepository
 {
-    public List<UserApp> Users { get; set; }
+    private readonly List<UserApp> _users;
+    private readonly object _lock = new();
 
     public UserRepository()
     {
-        Users = new()
+        _users = new()
         {
             new UserApp { Username = "admin", PasswordHash = BCrypt.Net.BCrypt.HashPassword("admin123") },
             new UserApp { Username = "john", PasswordHash = BCrypt.Net.BCrypt.HashPassword("password") },
@@ -18,8 +19,19 @@ public class UserRepository : IUserRepository
         };
     }
 
+    public IEnumerable<UserApp> GetAll()
+    {
+        lock (_lock)
+        {
+            return _users.ToList();
+        }
+    }
+
     public UserApp? GetByUsername(string username)
     {
-        return Users.FirstOrDefault(x => x.Username == username);
+        lock (_lock)
+        {
+            return _users.FirstOrDefault(x => x.Username == username);
+        }
     }
 }
