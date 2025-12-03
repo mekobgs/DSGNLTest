@@ -24,6 +24,9 @@ builder.Services.AddHttpClient<AuthApiService>(client =>
     return handler;
 });
 
+// Register IAuthApiService interface
+builder.Services.AddScoped<IAuthApiService>(provider => provider.GetRequiredService<AuthApiService>());
+
 builder.Services.AddHttpClient<EmployeeApiService>(client =>
 {
     client.BaseAddress = new Uri(apiBaseUrl);
