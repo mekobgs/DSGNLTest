@@ -21,6 +21,15 @@ builder.Services.AddHttpClient<AuthApiService>(client =>
     ServerCertificateCustomValidationCallback = (sender, cert, chain, sslPolicyErrors) => true
 });
 
+builder.Services.AddHttpClient<EmployeeApiService>(client =>
+{
+    client.BaseAddress = new Uri(apiBaseUrl);
+})
+.ConfigurePrimaryHttpMessageHandler(() => new HttpClientHandler
+{
+    ServerCertificateCustomValidationCallback = (sender, cert, chain, sslPolicyErrors) => true
+});
+
 // Repositories - Direct injection for Web UI
 builder.Services.AddSingleton<IEmployeeRepository, EmployeeRepository>();
 builder.Services.AddSingleton<IUserRepository, UserRepository>();

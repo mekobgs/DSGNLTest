@@ -38,6 +38,6 @@ public class LoginModel : PageModel
         // Store JWT token in session
         HttpContext.Session.SetString("jwt_token", token);
 
-        return RedirectToPage("/Users");
+        return RedirectToPage("/Index");
     }
 }
