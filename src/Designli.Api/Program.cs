@@ -63,3 +63,10 @@ app.UseAuthorization();
 app.MapControllers();
 
 app.Run();
+
+/// <summary>
+/// Public Program class for integration testing with WebApplicationFactory.
+/// This partial class declaration allows the test framework to instantiate
+/// the application with the configured services and middleware.
+/// </summary>
+public partial class Program { }

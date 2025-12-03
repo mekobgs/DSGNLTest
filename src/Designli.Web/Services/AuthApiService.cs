@@ -5,7 +5,7 @@ using System.Text.Json.Serialization;
 
 namespace Designli.Web.Services;
 
-public class AuthApiService
+public class AuthApiService : IAuthApiService
 {
     private readonly HttpClient _httpClient;
     private readonly IHttpContextAccessor _httpContextAccessor;

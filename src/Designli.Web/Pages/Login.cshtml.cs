@@ -7,9 +7,9 @@ namespace Designli.Web.Pages;
 
 public class LoginModel : PageModel
 {
-    private readonly AuthApiService _authApiService;
+    private readonly IAuthApiService _authApiService;
 
-    public LoginModel(AuthApiService authApiService)
+    public LoginModel(IAuthApiService authApiService)
     {
         _authApiService = authApiService;
     }
