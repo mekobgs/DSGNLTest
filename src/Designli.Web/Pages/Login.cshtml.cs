@@ -1,5 +1,5 @@
 using Designli.Application.DTOs;
-using Designli.Domain.Interfaces;
+using Designli.Web.Services;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 
@@ -7,11 +7,11 @@ namespace Designli.Web.Pages;
 
 public class LoginModel : PageModel
 {
-    private readonly IUserRepository _userRepository;
+    private readonly AuthApiService _authApiService;
 
-    public LoginModel(IUserRepository userRepository)
+    public LoginModel(AuthApiService authApiService)
     {
-        _userRepository = userRepository;
+        _authApiService = authApiService;
     }
 
     [BindProperty]
@@ -19,7 +19,7 @@ public class LoginModel : PageModel
 
     public string? ErrorMessage { get; set; }
 
-    public IActionResult OnPost()
+    public async Task<IActionResult> OnPostAsync()
     {      
         if (string.IsNullOrEmpty(Input.Username) || string.IsNullOrEmpty(Input.Password))
         {
@@ -27,15 +27,16 @@ public class LoginModel : PageModel
             return Page();
         }
 
-        var user = _userRepository.GetByUsername(Input.Username);
-        if (user == null || !BCrypt.Net.BCrypt.Verify(Input.Password, user.PasswordHash))
+        var token = await _authApiService.LoginAsync(Input.Username, Input.Password);
+        
+        if (token == null)
         {
             ErrorMessage = "Invalid login";
             return Page();
         }
 
-        // Store username in session (simplified authentication)
-        HttpContext.Session.SetString("username", user.Username);
+        // Store JWT token in session
+        HttpContext.Session.SetString("jwt_token", token);
 
         return RedirectToPage("/Users");
     }

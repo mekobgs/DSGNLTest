@@ -1,22 +1,32 @@
-using Designli.Domain.Interfaces;
+using Designli.Web.Services;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 
 namespace Designli.Web.Pages;
 
 public class UsersModel : PageModel
 {
-    private readonly IUserRepository _userRepository;
+    private readonly AuthApiService _authApiService;
 
     public List<string> Users { get; set; } = new();
 
-    public UsersModel(IUserRepository userRepository)
+    public UsersModel(AuthApiService authApiService)
     {
-        _userRepository = userRepository;
+        _authApiService = authApiService;
     }
 
-    public void OnGet()
+    public async Task<IActionResult> OnGetAsync()
     {
-        // Get all usernames directly from repository
-        Users = _userRepository.Users.Select(u => u.Username).ToList();
+        // Check if user is authenticated (has JWT token)
+        var token = HttpContext.Session.GetString("jwt_token");
+        if (string.IsNullOrEmpty(token))
+        {
+            return RedirectToPage("/Login");
+        }
+
+        // Call JWT-protected API endpoint
+        Users = await _authApiService.GetUsersAsync();
+        
+        return Page();
     }
 }

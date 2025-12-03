@@ -1,10 +1,25 @@
 using Designli.Domain.Interfaces;
 using Designli.Infrastructure.Repositories;
+using Designli.Web.Services;
 
 var builder = WebApplication.CreateBuilder(args);
 
 // Razor Pages
 builder.Services.AddRazorPages();
+
+// HttpContextAccessor for session access in services
+builder.Services.AddHttpContextAccessor();
+
+// HttpClient for API calls
+var apiBaseUrl = builder.Configuration["ApiBaseUrl"] ?? "https://localhost:7063";
+builder.Services.AddHttpClient<AuthApiService>(client =>
+{
+    client.BaseAddress = new Uri(apiBaseUrl);
+})
+.ConfigurePrimaryHttpMessageHandler(() => new HttpClientHandler
+{
+    ServerCertificateCustomValidationCallback = (sender, cert, chain, sslPolicyErrors) => true
+});
 
 // Repositories - Direct injection for Web UI
 builder.Services.AddSingleton<IEmployeeRepository, EmployeeRepository>();
